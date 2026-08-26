@@ -30,7 +30,8 @@ jobs:
       - name: Complete Platform Scaffolding
         working-directory: ./PharmacyQandilHR_Mobile
         run: |
-          flutter create . --platforms=android --org com.pharmacyqandil
+          flutter config --no-analytics
+          flutter create --project-name=pharmacy_qandil_hr . --platforms=android --org com.pharmacyqandil
 
       - name: Get Dependencies
         working-directory: ./PharmacyQandilHR_Mobile
