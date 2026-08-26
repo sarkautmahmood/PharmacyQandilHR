@@ -1,4 +1,4 @@
-﻿name: Build Flutter APK
+﻿name: Build and Release Flutter APK
 
 on:
   push:
@@ -7,34 +7,53 @@ on:
 
 jobs:
   build:
+    name: Build Flutter APK
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Java JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.x'
+          flutter-version: '3.22.x'
           channel: 'stable'
           cache: true
 
-      - name: Get Flutter Packages
+      - name: Complete Platform Scaffolding
         working-directory: ./PharmacyQandilHR_Mobile
-        run: flutter pub get
+        run: |
+          flutter create . --platforms=android --org com.pharmacyqandil
+
+      - name: Get Dependencies
+        working-directory: ./PharmacyQandilHR_Mobile
+        run: |
+          flutter pub get
 
       - name: Build APK (Release)
         working-directory: ./PharmacyQandilHR_Mobile
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release
 
-      - name: Upload APK Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PharmacyQandilHR-Release-APK
+          name: PharmacyQandilHR-APK
           path: PharmacyQandilHR_Mobile/build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/heads/')
+        with:
+          tag_name: v1.0.0
+          name: "Pharmacy Qandil HR v1.0.0 (APK)"
+          body: "Official Android APK release for Pharmacy Qandil HR Mobile App."
+          files: PharmacyQandilHR_Mobile/build/app/outputs/flutter-apk/app-release.apk
+          token: ${{ secrets.GITHUB_TOKEN }}
