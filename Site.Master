@@ -1,0 +1,463 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.Master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head runat="server">
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - سیستەمی سەرچاوە مرۆییەکانی دەرمانخانەی قەندیل (HR)</title>
+
+    <!-- Bootstrap 5 CSS (RTL) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Google Fonts (Cairo / Vazirmatn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-dark: #0b5ed7;
+            --pharmacy-teal: #008080;
+            --pharmacy-emerald: #0f766e;
+            --pharmacy-light: #f0fdfa;
+            --sidebar-bg: #134e4a;
+            --sidebar-hover: #115e59;
+            --sidebar-active: #0d9488;
+            --bg-body: #f8fafc;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            direction: rtl;
+            font-family: 'Cairo', 'Vazirmatn', Tahoma, sans-serif;
+            background-color: var(--bg-body);
+            color: #1e293b;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(180deg, #134e4a 0%, #042f2e 100%);
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .sidebar-brand .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #14b8a6, #2dd4bf);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(20, 184, 166, 0.3);
+        }
+
+        .sidebar-brand .brand-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .sidebar-brand .brand-subtitle {
+            font-size: 0.75rem;
+            color: #99f6e4;
+            margin: 0;
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            margin-bottom: 6px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: #ccfbf1;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link i {
+            font-size: 1.15rem;
+            width: 24px;
+            text-align: center;
+            color: #5eead4;
+        }
+
+        .sidebar-link:hover {
+            background-color: var(--sidebar-hover);
+            color: #ffffff;
+            transform: translateX(-4px);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(90deg, var(--sidebar-active) 0%, #14b8a6 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.35);
+        }
+
+        .sidebar-section-title {
+            color: #5eead4;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 14px 16px 6px;
+            margin: 0;
+        }
+
+        /* Main Content Wrapper */
+        .main-wrapper {
+            margin-right: 270px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        /* Top Navbar */
+        .top-navbar {
+            background-color: #ffffff;
+            padding: 14px 28px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .top-navbar .page-heading h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .top-navbar .page-heading span {
+            font-size: 0.82rem;
+            color: #64748b;
+        }
+
+        .user-profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 14px;
+            background-color: #f1f5f9;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+
+        .user-profile-badge .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Content Container */
+        .content-container {
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        /* Modern Card Styling */
+        .card-custom {
+            background-color: #ffffff;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--card-shadow);
+            padding: 22px;
+            margin-bottom: 24px;
+            transition: all 0.25s ease;
+        }
+
+        .card-custom:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .card-title-custom {
+            font-weight: 800;
+            color: #0f766e;
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #f0fdfa;
+            padding-bottom: 12px;
+        }
+
+        /* Form Inputs (Adhering to create-form skill) */
+        .form-label {
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1.5px solid #cbd5e1;
+            padding: 10px 14px;
+            font-size: 0.92rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18);
+            outline: none;
+        }
+
+        /* Button Styling */
+        .btn-pharmacy {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-pharmacy:hover {
+            background: linear-gradient(135deg, #0f766e, #115e59);
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+        }
+
+        .btn-full-width {
+            width: 100%;
+        }
+
+        /* Custom GridView Table */
+        .table-custom {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .table-custom th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 700;
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            border-bottom: 2px solid #e2e8f0;
+            text-align: right;
+        }
+
+        .table-custom td {
+            padding: 12px 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+            background-color: #ffffff;
+        }
+
+        .table-custom tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.78rem;
+            display: inline-block;
+        }
+
+        .badge-ontime { background-color: #dcfce7; color: #15803d; }
+        .badge-late { background-color: #fef3c7; color: #b45309; }
+        .badge-pending { background-color: #e0f2fe; color: #0369a1; }
+        .badge-approved { background-color: #d1fae5; color: #047857; }
+        .badge-rejected { background-color: #fee2e2; color: #b91c1c; }
+
+        /* Footer */
+        .footer-custom {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 16px 28px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(100%); }
+            .main-wrapper { margin-right: 0; }
+            .sidebar.show { transform: translateX(0); }
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableCdn="true" />
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="Default.aspx" class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-mortar-pestle"></i>
+                </div>
+                <div>
+                    <h2 class="brand-title">دەرمانخانەی قەندیل</h2>
+                    <p class="brand-subtitle">سیستەمی سەرچاوە مرۆییەکان (HR)</p>
+                </div>
+            </a>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-section-title">سەرەکی و چاودێری</li>
+                <li class="sidebar-item">
+                    <a href="Default.aspx" class="sidebar-link <%= GetActiveClass("Default.aspx") %>">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>داشبۆردی سەرەکی</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="Attendance_Monitor.aspx" class="sidebar-link <%= GetActiveClass("Attendance_Monitor.aspx") %>">
+                        <i class="fa-solid fa-camera-rotate"></i>
+                        <span>چاودێری دەوام و سێڵفی</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="Mobile_Simulator.aspx" class="sidebar-link <%= GetActiveClass("Mobile_Simulator.aspx") %>">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>تاقیکردنەوەی مۆبایل ئەپ</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-section-title">بەڕێوەبردنی ستاف</li>
+                <li class="sidebar-item">
+                    <a href="Employee_Manager.aspx" class="sidebar-link <%= GetActiveClass("Employee_Manager.aspx") %>">
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <span>کارمەندان و مۆبایل</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="Shift_Scheduler.aspx" class="sidebar-link <%= GetActiveClass("Shift_Scheduler.aspx") %>">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>خشتەی شیفتەکان</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="Leave_Management.aspx" class="sidebar-link <%= GetActiveClass("Leave_Management.aspx") %>">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <span>داواکارییەکانی مۆڵەت</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-section-title">دارایی و ڕێکخستن</li>
+                <li class="sidebar-item">
+                    <a href="Payroll_Processor.aspx" class="sidebar-link <%= GetActiveClass("Payroll_Processor.aspx") %>">
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                        <span>مووچە و دارایی</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="Places_GPS_Settings.aspx" class="sidebar-link <%= GetActiveClass("Places_GPS_Settings.aspx") %>">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>لقەکان و لۆکەیشنی GPS</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="page-heading">
+                    <h1><asp:ContentPlaceHolder ID="PageTitleContent" runat="server">سیستەمی دەرمانخانەی قەندیل</asp:ContentPlaceHolder></h1>
+                    <span>داتابەیسی پەیوەستکراو: <strong>PharmacyQandilDB</strong></span>
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-profile-badge">
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <span class="d-block text-dark fw-bold">بەڕێوەبەری سەرەکی</span>
+                            <small class="text-muted"><%= DateTime.Now.ToString("yyyy/MM/dd") %></small>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Placeholder -->
+            <main class="content-container">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+            </main>
+
+            <!-- Footer -->
+            <footer class="footer-custom">
+                <span>هەموو مافەکان پارێزراوە بۆ دەرمانخانەکانی قەندیل &copy; <%= DateTime.Now.Year %> | سیستەمی زیرەکی HR و چاودێری دەوام بە Geofencing و Selfie</span>
+            </footer>
+        </div>
+    </form>
+
+    <!-- JavaScript Libraries (adhering to create-form skill) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <asp:ContentPlaceHolder ID="ScriptsContent" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

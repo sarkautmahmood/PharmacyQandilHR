@@ -1,0 +1,48 @@
+name: pharmacy_qandil_hr
+description: Pharmacy Qandil HR Mobile App for Android and iOS with ASMX SOAP Backend, GPS Geofencing, Biometrics, and Live Selfie.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Networking & SOAP XML
+  http: ^1.2.0
+  xml: ^6.5.0
+
+  # Hardware: Location & GPS Geofencing
+  geolocator: ^11.0.0
+  permission_handler: ^11.3.0
+
+  # Hardware: Camera & Live Selfie
+  camera: ^0.10.5+9
+  image: ^4.1.7
+
+  # Hardware: Biometric Authentication (Fingerprint & FaceID)
+  local_auth: ^2.1.8
+
+  # Device Hardware Binding & Storage
+  device_info_plus: ^9.1.2
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.2
+
+  # UI, Icons, Typography & Dates
+  intl: ^0.19.0
+  google_fonts: ^6.1.0
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

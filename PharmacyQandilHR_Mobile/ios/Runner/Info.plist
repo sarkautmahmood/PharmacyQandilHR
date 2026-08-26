@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>دەرمانخانەی قەندیل HR</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>pharmacy_qandil_hr</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+
+	<!-- Camera Usage for Live Selfie -->
+	<key>NSCameraUsageDescription</key>
+	<string>پێویستمان بە کامێرا هەیە بۆ گرتنی وێنەی ڕاستەوخۆ (Live Selfie) لە کاتی لێدانی دەوام بۆ دەرمانخانە.</string>
+
+	<!-- Location Usage for GPS Geofencing -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>پێویستمان بە لۆکەیشن هەیە بۆ دڵنیابوونەوە لەوەی لە ناو بازنەی دەرمانخانەکەیت لە کاتی دەوام لێدان.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>پێویستمان بە لۆکەیشن هەیە بۆ پێوانەی مەودای دەرمانخانە.</string>
+
+	<!-- FaceID Usage for Biometric Authentication -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>پێویستمان بە Face ID هەیە بۆ ناسینەوەی ناسنامەی کارمەند پێش لێدانی دەوام.</string>
+
+	<!-- App Transport Security for ASMX SOAP Backend -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+</dict>
+</plist>

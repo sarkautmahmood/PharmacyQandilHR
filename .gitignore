@@ -1,0 +1,20 @@
+﻿# Visual Studio / ASP.NET
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.exe
+
+# Flutter / Dart
+PharmacyQandilHR_Mobile/.dart_tool/
+PharmacyQandilHR_Mobile/.flutter-plugins
+PharmacyQandilHR_Mobile/.flutter-plugins-dependencies
+PharmacyQandilHR_Mobile/.packages
+PharmacyQandilHR_Mobile/build/
+PharmacyQandilHR_Mobile/.pub-cache/
+PharmacyQandilHR_Mobile/.pub/
+
+# Temp files
+*.log
+encoding_output.txt
