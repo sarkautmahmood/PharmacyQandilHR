@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Flutter APK
@@ -27,21 +30,16 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Complete Platform Scaffolding
-        working-directory: ./PharmacyQandilHR_Mobile
-        run: |
-          flutter config --no-analytics
-          flutter create --project-name=pharmacy_qandil_hr . --platforms=android --org com.pharmacyqandil
-
       - name: Get Dependencies
         working-directory: ./PharmacyQandilHR_Mobile
         run: |
+          flutter config --no-analytics
           flutter pub get
 
       - name: Build APK (Release)
         working-directory: ./PharmacyQandilHR_Mobile
         run: |
-          flutter build apk --release
+          flutter build apk --release --no-tree-shake-icons
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -51,7 +49,6 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/heads/')
         with:
           tag_name: v1.0.0
           name: "Pharmacy Qandil HR v1.0.0 (APK)"
