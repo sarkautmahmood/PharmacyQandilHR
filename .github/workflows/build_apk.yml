@@ -1,4 +1,4 @@
-﻿name: Build and Release Flutter APK
+name: Build and Release Flutter APK
 
 on:
   push:
@@ -50,8 +50,8 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: "Pharmacy Qandil HR v1.0.0 (APK)"
-          body: "Official Android APK release for Pharmacy Qandil HR Mobile App."
+          tag_name: v1.0.1
+          name: "Pharmacy Qandil HR v1.0.1 (APK - Fixed Layout & Localization)"
+          body: "Fixed Kurdish RTL localization & layout rendering on Android devices."
           files: PharmacyQandilHR_Mobile/build/app/outputs/flutter-apk/app-release.apk
           token: ${{ secrets.GITHUB_TOKEN }}

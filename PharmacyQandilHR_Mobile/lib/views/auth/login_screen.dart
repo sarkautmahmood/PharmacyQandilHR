@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     // Simulate login / Fetch from ASMX
-    await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     // Sample default active employee
     final sampleEmp = EmployeeModel(
@@ -67,141 +67,166 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Pharmacy Icon Header
-                  Container(
-                    width: 90,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [AppTheme.accentCyan, AppTheme.accentMint],
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.accentCyan.withOpacity(0.3),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - 32,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 10),
+                        // Pharmacy Icon Header
+                        Center(
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [AppTheme.accentCyan, AppTheme.accentMint],
+                              ),
+                              borderRadius: BorderRadius.circular(22),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.accentCyan.withOpacity(0.35),
+                                  blurRadius: 18,
+                                  offset: const Offset(0, 6),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.local_pharmacy_rounded,
+                              size: 44,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
+                        const SizedBox(height: 14),
+                        const Center(
+                          child: Text(
+                            "دەرمانخانەکانی قەندیل",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Center(
+                          child: Text(
+                            "سیستەمی دەوامی زیرەکی کارمەندان (HR)",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.accentMint,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Card Form
+                        Card(
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(22.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text(
+                                  "چوونەژوورەوە بە ژمارەی مۆبایل",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppTheme.textDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                TextField(
+                                  controller: _phoneController,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                    labelText: "ژمارەی مۆبایل",
+                                    prefixIcon: const Icon(Icons.phone_iphone, color: AppTheme.primaryTeal),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(color: AppTheme.primaryTeal, width: 2),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                ElevatedButton(
+                                  onPressed: _isLoading ? null : _handleLogin,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.primaryTeal,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: _isLoading
+                                      ? const SizedBox(
+                                          height: 22,
+                                          width: 22,
+                                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
+                                        )
+                                      : const Text(
+                                          "چوونەژوورەوە",
+                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        ),
+                                ),
+                                const SizedBox(height: 14),
+                                OutlinedButton.icon(
+                                  onPressed: _isLoading ? null : _handleBiometricLogin,
+                                  icon: const Icon(Icons.fingerprint, color: AppTheme.primaryTeal, size: 24),
+                                  label: const Text(
+                                    "چوونەژوورەوە بە پەنجەمۆر",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.primaryTeal,
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(color: AppTheme.primaryTeal, width: 1.5),
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const Spacer(),
+                        const SizedBox(height: 16),
+                        const Center(
+                          child: Text(
+                            "سیستەمی پارێزراوی Geofencing & Live Selfie v1.0",
+                            style: TextStyle(fontSize: 11, color: Colors.white60),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.local_pharmacy_rounded,
-                      size: 48,
-                      color: Colors.white,
-                    ),
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "دەرمانخانەکانی قەندیل",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Text(
-                    "سیستەمی دەوامی زیرەکی کارمەندان (HR)",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppTheme.accentMint,
-                    ),
-                  ),
-                  const SizedBox(height: 36),
-
-                  // Card Form
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(22.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Text(
-                            "چوونەژوورەوە بە ژمارەی مۆبایل",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.textDark,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          TextField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              labelText: "ژمارەی مۆبایل",
-                              prefixIcon: const Icon(Icons.phone_iphone, color: AppTheme.primaryTeal),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: AppTheme.primaryTeal, width: 2),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: _isLoading ? null : _handleLogin,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.primaryTeal,
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            child: _isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
-                                  )
-                                : const Text(
-                                    "چوونەژوورەوە",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                          ),
-                          const SizedBox(height: 16),
-                          OutlinedButton.icon(
-                            onPressed: _isLoading ? null : _handleBiometricLogin,
-                            icon: const Icon(Icons.fingerprint, color: AppTheme.primaryTeal, size: 24),
-                            label: const Text(
-                              "چوونەژوورەوە بە پەنجەمۆر",
-                              style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.primaryTeal,
-                              ),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: AppTheme.primaryTeal, width: 1.5),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-                  const Text(
-                    "سیستەمی پارێزراوی Geofencing & Live Selfie v1.0",
-                    style: TextStyle(fontSize: 12, color: Colors.white54),
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

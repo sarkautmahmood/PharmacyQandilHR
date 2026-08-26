@@ -18,22 +18,25 @@ class PharmacyQandilApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       
-      // Multilingual & RTL Configuration
-      locale: const Locale('ckb', 'IQ'), // Kurdish Sorani
+      // RTL Kurdish & Arabic compatibility
+      locale: const Locale('ar', 'IQ'),
       supportedLocales: const [
-        Locale('ckb', 'IQ'), // Kurdish
-        Locale('ar', 'IQ'),  // Arabic
-        Locale('en', 'US'),  // English
+        Locale('ar', 'IQ'),
+        Locale('fa', 'IR'),
+        Locale('en', 'US'),
       ],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        return const Locale('ar', 'IQ');
+      },
       builder: (context, child) {
         return Directionality(
           textDirection: TextDirection.rtl, // Right-to-Left for Kurdish
-          child: child!,
+          child: child ?? const SizedBox(),
         );
       },
       home: const LoginScreen(),
